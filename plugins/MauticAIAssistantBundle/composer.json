@@ -1,0 +1,16 @@
+{
+    "name": "gelab/mautic-ai-assistant-bundle",
+    "description": "AI Chat Assistant Widget for Mautic",
+    "type": "mautic-plugin",
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MauticPlugin\\MauticAIAssistantBundle\\": ""
+        }
+    },
+    "extra": {
+        "install-directory-name": "MauticAIAssistantBundle"
+    }
+}
