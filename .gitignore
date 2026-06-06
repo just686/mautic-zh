@@ -121,6 +121,7 @@
 !/plugins/MauticTagManagerBundle
 !/plugins/index.html
 !/plugins/.gitkeep
+!/plugins/MauticAIAssistantBundle
 
 tests/**/*.sql
 
@@ -144,3 +145,7 @@ tests/**/*.sql
 !/themes/blank-big.png
 
 /translations
+
+# Environment files with secrets
+.env
+*.env
