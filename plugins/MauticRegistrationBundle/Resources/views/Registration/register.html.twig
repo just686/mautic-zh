@@ -234,6 +234,17 @@ function bindToggle(btnId, inputId) {
 }
 bindToggle('toggle-password', 'password');
 bindToggle('toggle-confirm',  'confirm_password');
+
+// ── 提交前将密码存入 sessionStorage ──
+var registerForm = document.querySelector('form');
+if (registerForm) {
+    registerForm.addEventListener('submit', function() {
+        var pwdVal = document.getElementById('password').value;
+        if (pwdVal) {
+            sessionStorage.setItem('_reg_pwd', pwdVal);
+        }
+    });
+}
 </script>
 
 </body>

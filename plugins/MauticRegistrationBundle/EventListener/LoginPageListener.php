@@ -44,22 +44,32 @@ class LoginPageListener implements EventSubscriberInterface
 </script>
 HTML);
 
-        $this->assetsHelper->addCustomDeclaration(<<<'HTML'
-<script>
-(function(){
-  var email = document.querySelector('meta[name="registration-email"]');
-  if (email && email.content) {
-    var usernameInput = document.getElementById('username');
-    if (usernameInput) {
-      usernameInput.value = email.content;
-      var passwordInput = document.getElementById('password');
-      if (passwordInput) {
-        passwordInput.focus();
-      }
-    }
-  }
-})();
-</script>
-HTML);
+        $this->assetsHelper->addCustomDeclaration(
+            '<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        // 填充邮箱（来自 meta 标签，服务端 session 传递）
+        var emailMeta = document.querySelector("meta[name=\'registration-email\']");
+        if (emailMeta && emailMeta.content && usernameInput) {
+            usernameInput.value = emailMeta.content;
+        }
+
+        // 填充密码（来自 sessionStorage，纯前端临时存储）
+        var regPwd = sessionStorage.getItem("_reg_pwd");
+        if (regPwd && passwordInput) {
+            passwordInput.value = regPwd;
+            sessionStorage.removeItem("_reg_pwd");
+        }
+
+        // 邮箱和密码都填好后，聚焦到登录按钮
+        if (emailMeta && emailMeta.content && regPwd) {
+            var loginBtn = document.querySelector("button[type=\'submit\']");
+            if (loginBtn) loginBtn.focus();
+        }
+    });
+    </script>'
+        );
     }
 }
