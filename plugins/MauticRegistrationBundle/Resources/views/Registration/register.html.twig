@@ -71,16 +71,48 @@
 
     <div class="field">
       <label for="password">密码 / Password</label>
-      <input type="password" id="password" name="password"
-             placeholder="建议：字母+数字+符号混合" autocomplete="new-password" required>
+      <div style="position:relative;display:flex;align-items:center;">
+        <input type="password" id="password" name="password"
+               style="flex:1;padding-right:40px;"
+               placeholder="请输入密码" autocomplete="new-password" required>
+        <button type="button" id="toggle-password"
+                style="position:absolute;right:10px;background:none;border:none;
+                       cursor:pointer;color:#666;font-size:16px;"
+                title="显示/隐藏密码">👁</button>
+      </div>
       <div class="strength"><div class="strength-bar" id="strength-bar"></div></div>
       <div class="hint" id="strength-hint">建议使用大小写字母、数字和符号混合 / Mix of letters, numbers and symbols</div>
     </div>
 
     <div class="field">
       <label for="confirm_password">确认密码 / Confirm Password</label>
-      <input type="password" id="confirm_password" name="confirm_password"
-             placeholder="再次输入密码" autocomplete="new-password" required>
+      <div style="position:relative;display:flex;align-items:center;">
+        <input type="password" id="confirm_password" name="confirm_password"
+               style="flex:1;padding-right:40px;"
+               placeholder="请再次输入密码" autocomplete="new-password" required>
+        <button type="button" id="toggle-confirm"
+                style="position:absolute;right:10px;background:none;border:none;
+                       cursor:pointer;color:#666;font-size:16px;"
+                title="显示/隐藏密码">👁</button>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+      <button type="button" id="btn-generate"
+              style="padding:6px 14px;background:#4a90d9;color:#fff;
+                     border:none;border-radius:4px;cursor:pointer;font-size:13px;">
+        🔑 生成安全密码
+      </button>
+      <button type="button" id="btn-copy"
+              style="padding:6px 14px;background:#6c757d;color:#fff;
+                     border:none;border-radius:4px;cursor:pointer;font-size:13px;
+                     display:none;">
+        📋 复制密码
+      </button>
+      <span id="copy-tip"
+            style="font-size:12px;color:#28a745;display:none;">
+        ✓ 已复制
+      </span>
     </div>
 
     <button type="submit" class="btn">注册 / Sign Up</button>
@@ -113,6 +145,95 @@ if(pwd){
     hint.textContent = text || '建议使用大小写字母、数字和符号混合 / Mix of letters, numbers and symbols';
   });
 }
+
+// ── 生成随机安全密码 ──
+function generatePassword() {
+    var upper  = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    var lower  = 'abcdefghjkmnpqrstuvwxyz';
+    var digits = '23456789';
+    var special = '!@#$%^&*';
+    var all = upper + lower + digits + special;
+    var pwd = [
+        upper [Math.floor(Math.random() * upper.length)],
+        lower [Math.floor(Math.random() * lower.length)],
+        digits[Math.floor(Math.random() * digits.length)],
+        special[Math.floor(Math.random() * special.length)]
+    ];
+    for (var i = 4; i < 12; i++) {
+        pwd.push(all[Math.floor(Math.random() * all.length)]);
+    }
+    // Fisher-Yates 洗牌
+    for (var i = pwd.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = pwd[i]; pwd[i] = pwd[j]; pwd[j] = tmp;
+    }
+    return pwd.join('');
+}
+
+// ── 生成按钮点击 ──
+var btnGenerate = document.getElementById('btn-generate');
+var btnCopy     = document.getElementById('btn-copy');
+var copyTip     = document.getElementById('copy-tip');
+var _generatedPwd = '';
+
+if (btnGenerate) {
+    btnGenerate.addEventListener('click', function() {
+        _generatedPwd = generatePassword();
+        var pwdInput     = document.getElementById('password');
+        var confirmInput = document.getElementById('confirm_password');
+        // 同时填充两个字段
+        pwdInput.value     = _generatedPwd;
+        confirmInput.value = _generatedPwd;
+        // 切换为明文显示，让用户看到密码
+        pwdInput.type     = 'text';
+        confirmInput.type = 'text';
+        // 触发强度检测
+        pwdInput.dispatchEvent(new Event('input'));
+        // 显示复制按钮
+        btnCopy.style.display = 'inline-block';
+        copyTip.style.display = 'none';
+    });
+}
+
+// ── 复制按钮 ──
+if (btnCopy) {
+    btnCopy.addEventListener('click', function() {
+        if (!_generatedPwd) return;
+        navigator.clipboard.writeText(_generatedPwd).then(function() {
+            copyTip.style.display = 'inline';
+            setTimeout(function(){ copyTip.style.display = 'none'; }, 2000);
+        }).catch(function() {
+            // 降级方案
+            var ta = document.createElement('textarea');
+            ta.value = _generatedPwd;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyTip.style.display = 'inline';
+            setTimeout(function(){ copyTip.style.display = 'none'; }, 2000);
+        });
+    });
+}
+
+// ── 显示/隐藏密码切换 ──
+function bindToggle(btnId, inputId) {
+    var btn   = document.getElementById(btnId);
+    var input = document.getElementById(inputId);
+    if (btn && input) {
+        btn.addEventListener('click', function() {
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁';
+            }
+        });
+    }
+}
+bindToggle('toggle-password', 'password');
+bindToggle('toggle-confirm',  'confirm_password');
 </script>
 
 </body>
