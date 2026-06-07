@@ -15,6 +15,16 @@ return [
                 'controller' => RegistrationController::class . '::registerAction',
                 'method'     => ['GET', 'POST'],
             ],
+            'mautic_registration_terms' => [
+                'path'       => '/register/terms',
+                'controller' => RegistrationController::class . '::termsAction',
+                'method'     => 'GET',
+            ],
+            'mautic_registration_privacy' => [
+                'path'       => '/register/privacy',
+                'controller' => RegistrationController::class . '::privacyAction',
+                'method'     => 'GET',
+            ],
         ],
         'main' => [
             'mautic_config_guard' => [

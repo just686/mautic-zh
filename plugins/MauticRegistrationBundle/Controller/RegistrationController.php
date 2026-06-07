@@ -20,6 +20,16 @@ class RegistrationController extends AbstractController
     ) {
     }
 
+    public function termsAction(): Response
+    {
+        return $this->render('@MauticRegistration/Registration/terms.html.twig');
+    }
+
+    public function privacyAction(): Response
+    {
+        return $this->render('@MauticRegistration/Registration/privacy.html.twig');
+    }
+
     public function registerAction(Request $request): Response
     {
         if ($this->getUser()) {

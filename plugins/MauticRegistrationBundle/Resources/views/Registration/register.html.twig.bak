@@ -123,13 +123,7 @@
   </div>
 </div>
 
-    <div style="text-align:center;margin:16px 0 8px;font-size:12px;color:#aaa;">
-    注册即表示您同意
-    <a href="/register/terms" target="_blank" style="color:#4A7FA5;">《用户协议》</a>
-    和
-    <a href="/register/privacy" target="_blank" style="color:#4A7FA5;">《隐私政策》</a>
-</div>
-<div class="copyright" style="font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:11px;color:#aaa;margin-top:8px;">© {{ "now"|date("Y") }} HaiKe | Based on <a href="https://github.com/mautic/mautic" style="color:#aaa;">Mautic</a> © Mautic Contributors | <a href="https://www.gnu.org/licenses/gpl-3.0.html" style="color:#aaa;">GNU GPL v3</a> | <a href="https://github.com/just686/mautic-zh" style="color:#aaa;">github.com/just686/mautic-zh</a></div>
+<div class="copyright">© {{ "now"|date("Y") }} 海客 HaiKe. All Rights Reserved.</div>
 
 <script>
 var pwd = document.getElementById('password');
