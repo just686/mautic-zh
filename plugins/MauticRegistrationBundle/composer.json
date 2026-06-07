@@ -1,0 +1,16 @@
+{
+    "name": "gelab/mautic-registration-bundle",
+    "description": "User Registration for HaiKe Platform",
+    "type": "mautic-plugin",
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MauticPlugin\\MauticRegistrationBundle\\": ""
+        }
+    },
+    "extra": {
+        "install-directory-name": "MauticRegistrationBundle"
+    }
+}

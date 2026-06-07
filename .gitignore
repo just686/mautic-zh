@@ -149,3 +149,4 @@ tests/**/*.sql
 # Environment files with secrets
 .env
 *.env
+!/plugins/MauticRegistrationBundle
