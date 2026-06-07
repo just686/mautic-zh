@@ -146,14 +146,15 @@ class RegistrationController extends AbstractController
             [$bundleName, $name] = explode(':', $bundle);
             $bitwise  = 0;
             $levelMap = [
-                'viewown'    => 1,
-                'viewother'  => 2,
-                'create'     => 4,
-                'editown'    => 8,
-                'editother'  => 16,
-                'deleteown'  => 32,
-                'deleteother' => 64,
-                'publish'    => 128,
+                'viewown'     => 2,
+                'viewother'   => 4,
+                'create'      => 32,
+                'editown'     => 8,
+                'editother'   => 16,
+                'deleteown'   => 64,
+                'deleteother' => 128,
+                'publishown'  => 256,
+                'publishother'=> 512,
             ];
             foreach ($levels as $level) {
                 $bitwise |= ($levelMap[$level] ?? 0);
