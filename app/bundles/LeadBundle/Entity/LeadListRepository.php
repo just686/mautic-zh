@@ -102,8 +102,12 @@ class LeadListRepository extends CommonRepository
         }
 
         if ($user) {
-            $q->andWhere($q->expr()->eq('l.isGlobal', ':true'));
-            $q->orWhere('l.createdBy = :user');
+            $q->andWhere(
+                $q->expr()->orX(
+                    $q->expr()->eq('l.isGlobal', ':true'),
+                    $q->expr()->eq('l.createdBy', ':user')
+                )
+            );
             $q->setParameter('user', $user->getId());
         }
 
