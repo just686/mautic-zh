@@ -15,6 +15,11 @@
 {% endblock %}
 
 {% block mainContent %}
+	{% if app.session.get('_registration_email') %}
+	<meta name="registration-email" content="{{ app.session.get('_registration_email')|escape }}">
+	{% do app.session.remove('_registration_email') %}
+	{% do app.session.remove('_registration_success') %}
+	{% endif %}
 	<form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="{{ path('mautic_user_logincheck') }}" method="post">
 		<div class="input-group mb-md">
 

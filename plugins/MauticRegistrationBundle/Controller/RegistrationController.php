@@ -40,6 +40,7 @@ class RegistrationController extends AbstractController
                 try {
                     $this->createUser($email, $password);
                     $request->getSession()->set('_registration_success', true);
+                    $request->getSession()->set('_registration_email', $email);
                     return $this->redirect('/s/login');
                 } catch (\Exception $e) {
                     $errors[] = '注册失败，请稍后重试。 / Registration failed, please try again.';

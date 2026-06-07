@@ -32,13 +32,31 @@ class LoginPageListener implements EventSubscriberInterface
     var wrap = document.createElement('div');
     wrap.id = 'haike-register-link';
     wrap.style.cssText = 'text-align:center;margin-top:16px;font-size:13px;color:#666;';
-    wrap.innerHTML = '还没有账号？<a href="/register" style="color:#4a6cf7;font-weight:500;"> 立即注册 / Sign Up</a>';
+    wrap.innerHTML = '还没有账号？<a href="/register" style="color:#4a6cf7;font-weight:500;"> 立即注册</a>';
     form.parentNode.insertBefore(wrap, form.nextSibling);
   }
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded', addRegisterLink);
   } else {
     addRegisterLink();
+  }
+})();
+</script>
+HTML);
+
+        $this->assetsHelper->addCustomDeclaration(<<<'HTML'
+<script>
+(function(){
+  var email = document.querySelector('meta[name="registration-email"]');
+  if (email && email.content) {
+    var usernameInput = document.getElementById('username');
+    if (usernameInput) {
+      usernameInput.value = email.content;
+      var passwordInput = document.getElementById('password');
+      if (passwordInput) {
+        passwordInput.focus();
+      }
+    }
   }
 })();
 </script>
