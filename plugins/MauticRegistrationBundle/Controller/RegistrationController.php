@@ -32,6 +32,36 @@ class RegistrationController extends AbstractController
 
     public function registerAction(Request $request): Response
     {
+        // 频率限制：同一 IP 每小时最多注册 5 次
+        $ip = $request->getClientIp();
+        $cacheFile = sys_get_temp_dir() . '/haike_reg_' . md5($ip) . '.json';
+        $now = time();
+        $windowSeconds = 3600; // 1小时
+        $maxAttempts = 5;
+
+        $data = ['attempts' => [], 'blocked_until' => 0];
+        if (file_exists($cacheFile)) {
+            $data = json_decode(file_get_contents($cacheFile), true) ?? $data;
+        }
+
+        // 清理窗口外的旧记录
+        $data['attempts'] = array_filter(
+            $data['attempts'],
+            fn($t) => ($now - $t) < $windowSeconds
+        );
+
+        if (count($data['attempts']) >= $maxAttempts) {
+            $waitMinutes = (int) ceil(($windowSeconds - ($now - min($data['attempts']))) / 60);
+            return new \Symfony\Component\HttpFoundation\JsonResponse(
+                ['error' => "注册过于频繁，请 {$waitMinutes} 分钟后再试。"],
+                429
+            );
+        }
+
+        // 记录本次请求
+        $data['attempts'][] = $now;
+        file_put_contents($cacheFile, json_encode($data));
+
         if ($this->getUser()) {
             return $this->redirectToRoute('mautic_dashboard_index');
         }

@@ -97,17 +97,24 @@
       </div>
     </div>
 
-    <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+    <div style="margin-top:10px;display:flex;gap:10px;align-items:center;">
       <button type="button" id="btn-generate"
-              style="padding:6px 14px;background:#4a90d9;color:#fff;
-                     border:none;border-radius:4px;cursor:pointer;font-size:13px;">
-        🔑 生成安全密码
+              style="padding:5px 16px;background:transparent;color:#4a6cf7;
+                     border:1.5px solid #4a6cf7;border-radius:20px;cursor:pointer;
+                     font-size:12px;font-weight:500;letter-spacing:.3px;
+                     transition:all .2s;"
+              onmouseover="this.style.background='#4a6cf7';this.style.color='#fff'"
+              onmouseout="this.style.background='transparent';this.style.color='#4a6cf7'">
+        生成安全密码
       </button>
       <button type="button" id="btn-copy"
-              style="padding:6px 14px;background:#6c757d;color:#fff;
-                     border:none;border-radius:4px;cursor:pointer;font-size:13px;
-                     display:none;">
-        📋 复制密码
+              style="padding:5px 16px;background:transparent;color:#6c757d;
+                     border:1.5px solid #dee2e6;border-radius:20px;cursor:pointer;
+                     font-size:12px;font-weight:500;letter-spacing:.3px;
+                     display:none;transition:all .2s;"
+              onmouseover="this.style.borderColor='#6c757d'"
+              onmouseout="this.style.borderColor='#dee2e6'">
+        复制密码
       </button>
       <span id="copy-tip"
             style="font-size:12px;color:#28a745;display:none;">
